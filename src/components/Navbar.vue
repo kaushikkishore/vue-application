@@ -22,12 +22,7 @@
 
     <v-navigation-drawer app class="pink" dark v-model="drawer">
       <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-          :to="item.path"
-        >
+        <v-list-item v-for="item in items" :key="item.title" link :to="item.path">
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -56,9 +51,14 @@ export default {
         {
           title: "Inventory",
           path: "/inventory",
-          items: [],
+          items: []
         },
-      ],
+        {
+          title: "Vendor",
+          path: "/vendor",
+          items: []
+        }
+      ]
     };
   },
   methods: {
@@ -66,10 +66,10 @@ export default {
     logoutUser() {
       this.logout();
       this.$router.push({ name: "Login" });
-    },
+    }
   },
   computed: {
-    ...mapGetters({ IsAutheticated: "isLoggedIn" }),
-  },
+    ...mapGetters({ IsAutheticated: "isLoggedIn" })
+  }
 };
 </script>

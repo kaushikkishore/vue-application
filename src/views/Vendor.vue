@@ -1,8 +1,8 @@
 <template>
-  <v-data-table :headers="headers" :items="inventories" sort-by="calories" class="elevation-0">
+  <v-data-table :headers="headers" :items="vendors" sort-by="calories" class="elevation-0">
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title class="title">Inventory Management</v-toolbar-title>
+        <v-toolbar-title class="title">Venors Management</v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-dialog v-model="dialog" max-width="500px">
@@ -18,17 +18,17 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.purchase.product" label="Product name"></v-text-field>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.name" label="Vendor Name"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.purchase.quantity" label="Quantity"></v-text-field>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.email" label="Email"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.purchase.grade" label="Grade"></v-text-field>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.phone" label="Phone"></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.purchaseOrderDate" label="Order Date"></v-text-field>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.address" label="Address"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -52,6 +52,7 @@
     </template>
   </v-data-table>
 </template>
+
 <script>
 import { mapActions, mapGetters } from "vuex";
 
@@ -60,37 +61,35 @@ export default {
     dialog: false,
     headers: [
       {
-        text: "Product Name",
+        text: "Name",
         align: "start",
         sortable: false,
-        value: "purchase.product"
+        value: "name"
       },
-      { text: "Quantity", value: "purchase.quantity" },
-      { text: "Grade", value: "purchase.grade" },
-      { text: "Assay", value: "purchase.assay" },
-      { text: "Order Date", value: "purchaseOrderDate" },
+      { text: "Email", value: "email" },
+      { text: "Phone", value: "phone" },
+      { text: "Address", value: "address" },
+      { text: "Modified Date", value: "modifiedOn" },
       { text: "Actions", value: "actions", sortable: false }
     ],
-    inventories: [],
+    vendors: [],
     editedIndex: -1,
     editedItem: {
-      purchase: {
-        quantity: "",
-        grade: "",
-        assay: ""
-      }
+      name: "",
+      email: "",
+      phone: "",
+      address: ""
     },
     defaultItem: {
-      purchase: {
-        quantity: "",
-        grade: "",
-        assay: ""
-      }
+      name: "",
+      email: "",
+      phone: "",
+      address: ""
     }
   }),
 
   computed: {
-    ...mapGetters(["getInventoryList"]),
+    ...mapGetters(["getVendorsList"]),
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     }
@@ -103,19 +102,19 @@ export default {
   },
 
   async created() {
-    await this.retrieveInventory();
+    await this.retrieveVendors();
     this.initialize();
   },
 
   methods: {
-    ...mapActions(["retrieveInventory"]),
+    ...mapActions(["retrieveVendors"]),
 
     initialize() {
-      this.inventories = this.getInventoryList;
+      this.vendors = this.getVendorsList;
     },
 
     editItem(item) {
-      this.editedIndex = this.inventories.indexOf(item);
+      this.editedIndex = this.vendors.indexOf(item);
       console.log("Edited index", this.editedIndex);
       console.log("Item passed ", item);
       this.editedItem = Object.assign({}, item);
@@ -123,9 +122,9 @@ export default {
     },
 
     deleteItem(item) {
-      const index = this.inventories.indexOf(item);
+      const index = this.vendors.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.inventories.splice(index, 1);
+        this.vendors.splice(index, 1);
     },
 
     close() {
@@ -138,12 +137,14 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.inventories[this.editedIndex], this.editedItem);
+        Object.assign(this.vendors[this.editedIndex], this.editedItem);
       } else {
-        this.inventories.push(this.editedItem);
+        this.vendors.push(this.editedItem);
       }
       this.close();
     }
   }
 };
 </script>
+
+<style scoped></style>
