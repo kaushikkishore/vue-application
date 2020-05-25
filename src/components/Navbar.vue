@@ -1,6 +1,6 @@
 <template>
   <div v-if="IsAutheticated">
-    <v-app-bar app color="indigo" dark>
+    <v-app-bar app color="teal" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Vimano</v-toolbar-title>
@@ -56,9 +56,9 @@ export default {
         {
           title: "Inventory",
           path: "/inventory",
-          items: []
-        }
-      ]
+          items: [],
+        },
+      ],
     };
   },
   methods: {
@@ -66,10 +66,10 @@ export default {
     logoutUser() {
       this.logout();
       this.$router.push({ name: "Login" });
-    }
+    },
   },
   computed: {
-    ...mapGetters({ IsAutheticated: "isLoggedIn" })
-  }
+    ...mapGetters({ IsAutheticated: "isLoggedIn" }),
+  },
 };
 </script>
